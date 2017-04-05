@@ -1,5 +1,8 @@
 .codelite/*
-.project
+*.project
 */Debug/*
 */Release/*
-.workspace
+*.workspace
+*.mk
+*.txt
+Makefile
