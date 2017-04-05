@@ -33,6 +33,11 @@ void increment_counters(int &x, int &y){
 	y++;
 }
 
+//# PASSING BY ADDRESS
+//We can also pass params by address (as a pointer). Note that passing by address actually passess the address by value.
+//if i change the pointer address inside the function, it will only impact the copy inside the func.
+//if i needed to change the pointer address, then i should pass the pointer by reference (as done before).
+
 int main(int argc, char **argv)
 {
 	
