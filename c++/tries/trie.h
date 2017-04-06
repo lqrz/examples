@@ -5,6 +5,7 @@ using namespace std;
 
 struct node{
 	char value;
+	bool ending;
 	map<char, node* > children;
 };
 

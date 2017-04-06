@@ -7,6 +7,7 @@ using namespace std;
 
 void print_node(node *n){
 	cout << "Node value: " << n->value << endl;
+	cout << "Ending: " << n->ending << endl;
 	
 	if (!n->children.size()){
 		cout << "No children" << endl;
@@ -55,6 +56,7 @@ node* construct_trie(vector<vector<char> > words){
 				cout << "Inserting " << words[i][j] << " under: " << last_node->value << endl;
 				n = new node;
 				n->value = words[i][j];
+				n->ending = false;
 				last_node->children[words[i][j]] = n;
 				cout << last_node->children[words[i][j]] << endl;
 			}else{
@@ -63,7 +65,7 @@ node* construct_trie(vector<vector<char> > words){
 			};
 			last_node = n;
 		};
-			
+		last_node->ending = true;	
 		cout << endl;
 	};
 	
