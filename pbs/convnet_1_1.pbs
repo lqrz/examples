@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# USEFUL RESOURCES ON PBS:
+# https://www.westgrid.ca/files/PBS%20Script_0.pdf
+# http://qcd.phys.cmu.edu/QCDcluster/pbs/run_serial.html
+
+# job name
+#PBS -N convnet_1_1
+
+# request resources
+#PBS -l nodes=1:ppn=1
+
+# output files
+#$ -o ../jobs_output/tmp.out
+#$ -e ../jobs_output/tmp.err
+
+# nr of nodes
+# -l nodes=4:compute#shared
+
+# create tmp dir with my name
+TMP_BASE=$HOME/scratch
+TMP=${TMP_BASE}/${USER}
+
+# create tmp subdir with the job name
+TMPRUN=${TMP}/${PBS_JOBNAME}
+
+mkdir -p $TMPRUN
+
+# set the input directory
+INPUTDIR=$HOME/src
+
+# copy necessary files
+cp -r $INPUTDIR $TMPRUN
+
+# set destination dir
+FINALDIR=$HOME/pbs_output/${PBS_JOBID}
+
+source activate lqrz
+
+
+echo "Start - `date`"
+
+# run the sript
+python ${TMPRUN}/src/convnet_trainer.py --imgwidth 300 --imgheight 390 --batchsize 128 --epochs 100 --convlayers 1 --denselayersdenselayers 1 --tensorflow --datadir ${HOME}/data/ --outputdir ${TMPRUN} --workers 64
+
+echo "Finish - `date`"
+
+echo "ls -l $TMPRUN"
+RES="$(ls -l $TMPRUN)"
+echo $RES
+
+echo "mv ${TMPRUN}/ ${FINALDIR}/"
+mv ${TMPRUN}/ ${FINALDIR}/
+
+echo "rm ${TMP_BASE}"
+rm -r $TMP_BASE
